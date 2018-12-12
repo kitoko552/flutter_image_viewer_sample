@@ -9,7 +9,7 @@ class ImageViewerSample extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Image Viewer Sample',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
