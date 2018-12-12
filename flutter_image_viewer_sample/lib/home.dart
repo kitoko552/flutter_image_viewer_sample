@@ -11,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _selectedAsset = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,19 +35,32 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildImage(String name) {
-    return InkWell(
-      child: Hero(
-        tag: name,
-        child: Image.asset(name),
+    return Opacity(
+      opacity: (name == _selectedAsset) ? 0.0 : 1.0,
+      child: InkWell(
+        child: Hero(
+          tag: name,
+          child: Image.asset(name),
+        ),
+        onTap: () {
+          Navigator.of(context).push(
+            FadeInRoute(
+              widget: ImageViewerPage(name),
+              opaque: false,
+              onTransitionCompleted: () {
+                setState(() {
+                  _selectedAsset = name;
+                });
+              },
+              onTransitionDismissed: () {
+                setState(() {
+                  _selectedAsset = '';
+                });
+              },
+            ),
+          );
+        },
       ),
-      onTap: () {
-        Navigator.of(context).push(
-          FadeInRoute(
-            widget: ImageViewerPage(assetName: name),
-            opaque: false,
-          ),
-        );
-      },
     );
   }
 

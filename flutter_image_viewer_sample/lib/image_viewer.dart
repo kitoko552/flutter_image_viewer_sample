@@ -1,13 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewerPage extends StatefulWidget {
-  ImageViewerPage({
-    @required this.assetName,
-  });
+  ImageViewerPage(this.assetName);
 
   final String assetName;
 
@@ -16,101 +13,45 @@ class ImageViewerPage extends StatefulWidget {
 }
 
 class _ImageViewerPageState extends State<ImageViewerPage> {
-  Offset _beginningDragPosition = Offset.zero;
-  Offset _currentDragPosition = Offset.zero;
+  Offset beginningDragPosition = Offset.zero;
+  Offset currentDragPosition = Offset.zero;
   PhotoViewScaleState scaleState = PhotoViewScaleState.initial;
-  int _photoViewAnimationDurationMilliSec = 0;
-  double _barsOpacity = 0.0;
+  int photoViewAnimationDurationMilliSec = 0;
+  double barsOpacity = 1.0;
 
-  double get _photoViewScale {
-    return max(
-      1.0 - _currentDragPosition.distance * 0.001,
-      0.8,
-    );
+  double get photoViewScale {
+    return max(1.0 - currentDragPosition.distance * 0.001, 0.8);
   }
 
-  double get _photoViewOpacity {
-    return max(
-      1.0 - _currentDragPosition.distance * 0.005,
-      0.1,
-    );
+  double get photoViewOpacity {
+    return max(1.0 - currentDragPosition.distance * 0.005, 0.1);
   }
 
-  Matrix4 get _photoViewTransform {
+  Matrix4 get photoViewTransform {
     final translationTransform = Matrix4.translationValues(
-      _currentDragPosition.dx,
-      _currentDragPosition.dy,
+      currentDragPosition.dx,
+      currentDragPosition.dy,
       0.0,
     );
 
     final scaleTransform = Matrix4.diagonal3Values(
-      _photoViewScale,
-      _photoViewScale,
+      photoViewScale,
+      photoViewScale,
       1.0,
     );
 
     return translationTransform * scaleTransform;
   }
 
-  void onTapPhotoView() {
-    setState(() {
-      _barsOpacity = (_barsOpacity <= 0.0) ? 1.0 : 0.0;
-    });
-  }
-
-  void onVerticalDragStart(DragStartDetails details) {
-    setState(() {
-      _barsOpacity = 0.0;
-      _photoViewAnimationDurationMilliSec = 0;
-    });
-    _beginningDragPosition = details.globalPosition;
-  }
-
-  void onVerticalDragUpdate(DragUpdateDetails details) {
-    setState(() {
-      _barsOpacity = (_currentDragPosition.distance < 20.0) ? 1.0 : 0.0;
-      _currentDragPosition = Offset(
-        details.globalPosition.dx - _beginningDragPosition.dx,
-        details.globalPosition.dy - _beginningDragPosition.dy,
-      );
-    });
-  }
-
-  void onVerticalDragEnd(DragEndDetails details) {
-    if (_currentDragPosition.distance < 100.0) {
-      setState(() {
-        _photoViewAnimationDurationMilliSec = 200;
-        _currentDragPosition = Offset.zero;
-        _barsOpacity = 1.0;
-      });
-    } else {
-      Navigator.of(context).pop();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // run topBar animation after the transition are finished
-    Future.delayed(
-      Duration(milliseconds: 400),
-      () => setState(() => _barsOpacity = 1.0),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Stack(
-          children: [
-            _buildImage(context),
-            _buildTopBar(context),
-          ],
-        ),
+      body: Stack(
+        children: [
+          _buildImage(context),
+          _buildTopBar(context),
+        ],
       ),
     );
   }
@@ -127,10 +68,10 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
       onVerticalDragEnd:
           scaleState == PhotoViewScaleState.initial ? onVerticalDragEnd : null,
       child: Container(
-        color: Colors.black.withOpacity(_photoViewOpacity),
+        color: Colors.black.withOpacity(photoViewOpacity),
         child: AnimatedContainer(
-          duration: Duration(milliseconds: _photoViewAnimationDurationMilliSec),
-          transform: _photoViewTransform,
+          duration: Duration(milliseconds: photoViewAnimationDurationMilliSec),
+          transform: photoViewTransform,
           child: PhotoView(
             backgroundDecoration: BoxDecoration(color: Colors.transparent),
             imageProvider: AssetImage(widget.assetName),
@@ -152,7 +93,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
     final double topBarHeight = 64.0;
     return AnimatedOpacity(
       duration: Duration(milliseconds: 200),
-      opacity: _barsOpacity,
+      opacity: barsOpacity,
       child: Container(
         color: Colors.black.withOpacity(0.4),
         height: topBarHeight,
@@ -182,5 +123,41 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
         ),
       ),
     );
+  }
+
+  void onTapPhotoView() {
+    setState(() {
+      barsOpacity = (barsOpacity <= 0.0) ? 1.0 : 0.0;
+    });
+  }
+
+  void onVerticalDragStart(DragStartDetails details) {
+    setState(() {
+      barsOpacity = 0.0;
+      photoViewAnimationDurationMilliSec = 0;
+    });
+    beginningDragPosition = details.globalPosition;
+  }
+
+  void onVerticalDragUpdate(DragUpdateDetails details) {
+    setState(() {
+      barsOpacity = (currentDragPosition.distance < 20.0) ? 1.0 : 0.0;
+      currentDragPosition = Offset(
+        details.globalPosition.dx - beginningDragPosition.dx,
+        details.globalPosition.dy - beginningDragPosition.dy,
+      );
+    });
+  }
+
+  void onVerticalDragEnd(DragEndDetails details) {
+    if (currentDragPosition.distance < 100.0) {
+      setState(() {
+        photoViewAnimationDurationMilliSec = 200;
+        currentDragPosition = Offset.zero;
+        barsOpacity = 1.0;
+      });
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 }
