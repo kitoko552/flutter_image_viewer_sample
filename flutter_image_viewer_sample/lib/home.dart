@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'fade_in_route.dart';
+import 'image_viewer.dart';
+
 class HomePage extends StatefulWidget {
   HomePage();
 
@@ -30,7 +33,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildImage(String name) {
-    return Image.asset(name);
+    return InkWell(
+      child: Hero(
+        tag: name,
+        child: Image.asset(name),
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          FadeInRoute(
+            widget: ImageViewerPage(assetName: name),
+            opaque: false,
+          ),
+        );
+      },
+    );
   }
 
   Widget _spacer(double height) {
