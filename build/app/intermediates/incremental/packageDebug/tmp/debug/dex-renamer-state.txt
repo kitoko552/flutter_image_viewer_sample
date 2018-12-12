@@ -1,0 +1,4 @@
+#Wed Dec 12 19:46:47 JST 2018
+base.0=/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

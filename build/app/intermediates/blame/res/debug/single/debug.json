@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/drawable_launch_background.xml.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/drawable/launch_background.xml"
+    },
+    {
+        "merged": "/Users/a13906/Development/flutter_image_viewer_sample/build/app/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/a13906/Development/flutter_image_viewer_sample/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    }
+]
