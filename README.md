@@ -3,4 +3,4 @@
 Hero animation + PhotoView  
 
 
-![sample.gif](gif/sample.gif)
+![sample.gif](gif/readme.gif)
